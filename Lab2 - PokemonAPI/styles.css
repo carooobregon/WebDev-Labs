@@ -1,0 +1,15 @@
+h1{
+    padding: 30px;
+    font-family: 'Fjalla One', sans-serif;
+}
+h4{
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}
+#myForm{
+    padding-left: 30px;
+}
+
+.pok {
+    color: blue;
+}
