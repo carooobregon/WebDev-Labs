@@ -31,6 +31,7 @@ app.route('/addPokemon').get(function(req, res){
       let pokemon_data = pokemon_response.data;
       console.log("I am making a request to " + URL);
       res.send(pokemon_data);
+      console.log(pokemon_data.name);
   }).catch(function(error){
       console.log(error);
       res.status(404).send('the pokemon does not exist');
