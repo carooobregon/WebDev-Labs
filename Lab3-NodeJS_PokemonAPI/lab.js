@@ -34,7 +34,7 @@ app.route('/addPokemon').get(function(req, res){
   .then(pokemon_response => {
       let pokemon_data = pokemon_response.data;
       console.log("I am making a request to " + URL);
-      currPokemons.push({name:pokemon_data.name, pic:pokemon_data.sprites.front_default});
+      currPokemons.push({name:pokemon_data.name, pic:pokemon_data.sprites.front_default, exp:pokemon_data.base_experience, height:pokemon_data.height, weight:pokemon_data.weight});
       res.render('template', {currPokemons});
     }).catch(function(error){
       console.log(error);

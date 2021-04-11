@@ -14,7 +14,11 @@ html
         for poke in currPokemons
             div.col
                 div.card(style="width: 200px;")
-                    img(src=poke.pic)
-                    p= poke.name
+                    img(src=poke.pic).card-img-top
+                    div.card-body
+                        h4.card-title= poke.name
+                        p.card-text= "Experience: " + poke.exp
+                        p.card-text= "Height: " + poke.height
+                        p.card-text= "Weight: " + poke.weight
         else
             p
