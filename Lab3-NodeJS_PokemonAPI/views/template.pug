@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+    integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    h1 Add your favorite Pokemons!
+    form(action='/addPokemon')
+      p Query:
+        input(name='pokemonName', value='', type='text')
+      input(value='Submit', type='submit')
+    div.row.pokeRow
+        for poke in currPokemons
+            div.col
+                div.card(style="width: 200px;")
+                    img(src=poke.pic)
+                    p= poke.name
+        else
+            p

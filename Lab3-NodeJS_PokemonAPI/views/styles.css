@@ -1,0 +1,11 @@
+.caro{
+    background-color: red;
+}
+
+.pokeRow{
+    margin: 30px;
+}
+
+.pokeCard{
+    width: 200px!important;
+}
