@@ -7,9 +7,13 @@ html
   body
     h1 Add your favorite Pokemons!
     form(action='/addPokemon')
-      p Query:
+      p
         input(name='pokemonName', value='', type='text')
-      input(value='Submit', type='submit')
+      input(value='Submit', type='submit').btn.btn-warning
+    if badQ
+        p Pokemon does not exist
+    else 
+        p
     div.row.pokeRow
         for poke in currPokemons
             div.col

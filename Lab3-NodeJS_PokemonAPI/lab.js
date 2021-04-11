@@ -6,6 +6,7 @@ const port = 3000;
 const axios = require('axios').default;
 
 var currPokemons = [];
+var badQ = false;
 app.set('views', './views')
 app.set('view engine', 'pug');
 
@@ -19,7 +20,7 @@ app.get('/', (req, res) => {
     }
   }
   var fileName = "page.html"
-  res.render('template', {currPokemons});
+  res.render('template', {currPokemons, badQ});
 });
 
 app.route('/addPokemon').post(function(req, res){
@@ -34,11 +35,13 @@ app.route('/addPokemon').get(function(req, res){
   .then(pokemon_response => {
       let pokemon_data = pokemon_response.data;
       console.log("I am making a request to " + URL);
-      currPokemons.push({name:pokemon_data.name, pic:pokemon_data.sprites.front_default, exp:pokemon_data.base_experience, height:pokemon_data.height, weight:pokemon_data.weight});
-      res.render('template', {currPokemons});
+      currPokemons.push(getPokemonObj(pokemon_data));
+      badQ = false;
+      res.render('template', {currPokemons, badQ});
     }).catch(function(error){
       console.log(error);
-      res.status(404).send('the pokemon does not exist');
+      badQ = true
+      res.render('template', {currPokemons, badQ});
   });
 });
 
@@ -46,3 +49,13 @@ app.route('/addPokemon').get(function(req, res){
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 });
+
+function getPokemonObj(pokemon_data){
+  return {
+    name:pokemon_data.name,
+    pic:pokemon_data.sprites.front_default,
+    exp:pokemon_data.base_experience,
+    height:pokemon_data.height,
+    weight:pokemon_data.weight
+  };
+}
