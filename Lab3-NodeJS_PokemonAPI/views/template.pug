@@ -1,9 +1,11 @@
-doctype html
 html
   head
     link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
     integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    style
+        include ../css/styles.css
+    script 
+        include ../scripts/utilities.js
   body
     h1 Add your favorite Pokemons!
     form(action='/addPokemon')
@@ -14,6 +16,7 @@ html
         p Pokemon does not exist
     else 
         p
+    p= "Current weight " + weight 
     div.row.pokeRow
         for poke in currPokemons
             div.col
@@ -24,5 +27,6 @@ html
                         p.card-text= "Experience: " + poke.exp
                         p.card-text= "Height: " + poke.height
                         p.card-text= "Weight: " + poke.weight
+                        button(onclick="delItem()") Delete 
         else
             p

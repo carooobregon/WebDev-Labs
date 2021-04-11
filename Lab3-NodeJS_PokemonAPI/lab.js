@@ -7,20 +7,13 @@ const axios = require('axios').default;
 
 var currPokemons = [];
 var badQ = false;
+var weight = 0;
+
 app.set('views', './views')
 app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-  var options = {
-    root: path.join(__dirname, 'public'),
-    dotfiles: 'deny',
-    headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true
-    }
-  }
-  var fileName = "page.html"
-  res.render('template', {currPokemons, badQ});
+  res.render('template', {currPokemons, badQ, weight});
 });
 
 app.route('/addPokemon').post(function(req, res){
@@ -37,11 +30,12 @@ app.route('/addPokemon').get(function(req, res){
       console.log("I am making a request to " + URL);
       currPokemons.push(getPokemonObj(pokemon_data));
       badQ = false;
-      res.render('template', {currPokemons, badQ});
+      weight += pokemon_data.weight;
+      res.render('template', {currPokemons, badQ, weight});
     }).catch(function(error){
       console.log(error);
       badQ = true
-      res.render('template', {currPokemons, badQ});
+      res.render('template', {currPokemons, badQ, weight});
   });
 });
 
@@ -58,4 +52,8 @@ function getPokemonObj(pokemon_data){
     height:pokemon_data.height,
     weight:pokemon_data.weight
   };
+}
+
+function delItem(){
+  console.log("HOLA lab");
 }
