@@ -1,25 +1,35 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-const axios = require('axios').default;
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const port = 3000
+const axios = require('axios').default
 
+app.use(cors());
 
-app.get('/', (req, res) => {
-    const URL = 'https://pokeapi.co/api/v2/pokemon/ditto';
+app.get('/getPokemon', (req,res) => {
+  let pokemonName = req.query.name
+  console.log(req.query)
+  const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
 
-    axios.get(URL)
-    .then(pokemon_response => {
-        let pokemon_data = pokemon_response.data;
-        console.log("I am making a request to " + URL);
-        res.send(pokemon_data);
-    }).catch(function(error){
-        console.log(error);
-        res.status(404).send('the pokemon does not exist');
-    });
-});
+  axios.get(url).then((response) => {
+    let poke_data = response.data
+    console.log(returnPokeObject(poke_data))
+    res.status(200).send(returnPokeObject(poke_data));
+  }).catch ((error) => {
+    res.status(404).send()
+  })
+})
+
+function returnPokeObject(poke_data){
+    return {
+        name: poke_data.name,
+        weight: poke_data.weight,
+        height: poke_data.height,
+        pic: poke_data.sprites.front_default,
+        exp: poke_data.base_experience
+    };
+}
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-});
+  console.log('server running')
+})

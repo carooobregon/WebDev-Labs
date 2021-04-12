@@ -21,6 +21,10 @@ app.route('/addPokemon').post(function(req, res){
   res.end('Looking for pokemon ' + nameParam);
 });
 
+app.route('/deletePokemon').post(function(req, res){
+  console.log("deleting!")
+});
+
 app.route('/addPokemon').get(function(req, res){
   const URL = 'https://pokeapi.co/api/v2/pokemon/' + req.query.pokemonName;
 

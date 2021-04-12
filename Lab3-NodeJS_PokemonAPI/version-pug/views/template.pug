@@ -27,6 +27,7 @@ html
                         p.card-text= "Experience: " + poke.exp
                         p.card-text= "Height: " + poke.height
                         p.card-text= "Weight: " + poke.weight
-                        button(onclick="delItem()") Delete 
+                        form(action='/deletePokemon', method="post")
+                            button() Delete
         else
             p

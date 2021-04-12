@@ -1,3 +1,3 @@
-function delItem(){
+function delItem33(){
     console.log("HOLA");
 }
