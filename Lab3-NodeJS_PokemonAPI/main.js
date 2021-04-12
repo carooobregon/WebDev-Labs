@@ -94,9 +94,7 @@ function createListButton(){
     newbtn.addEventListener("click",(event) => {
         let deletedCard = event.target.parentNode.parentNode.parentNode.parentNode;
         let deletedItm = event.target.parentNode;
-        console.log(event.target.parentNode);
         let delWeight = deletedItm.getAttribute('id');
-        console.log(deletedItm.getAttribute('id'));
         globalWeightNum = globalWeightNum - delWeight;
         globalWeightElem.textContent = globalWeightNum;
         // let cardElem = event.target.parentNode.parentNode

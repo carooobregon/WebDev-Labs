@@ -8,12 +8,10 @@ app.use(cors());
 
 app.get('/getPokemon', (req,res) => {
   let pokemonName = req.query.name
-  console.log(req.query)
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
 
   axios.get(url).then((response) => {
     let poke_data = response.data
-    console.log(returnPokeObject(poke_data))
     res.status(200).send(returnPokeObject(poke_data));
   }).catch ((error) => {
     res.status(404).send()
