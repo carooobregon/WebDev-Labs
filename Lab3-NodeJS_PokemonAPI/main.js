@@ -4,45 +4,49 @@ var elements  = document.getElementById("pokeRow");
 var alertBoot = document.getElementById("myAlert");
 const prefixUrl = "https://pokeapi.co/api/v2/pokemon/";
 const globalWeightElem = document.getElementById("globalW")
+let p = document.querySelector("p");
 
 var globalWeightNum = 0;
 globalWeightElem.textContent = globalWeightNum;
 
 myForm.onsubmit = (event) => {
     event.preventDefault();
-    let pokeName = pokemonName.value.toLowerCase();
-    let url = `http://127.0.0.1:3000/getPokemon/?name=${pokeName}`
-    
-    let ajaxPromise = new Promise((resolve, reject) => {
-        // Initialize the HTTP request.
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
+    let pokeName = pokemonName.value.toLowerCase().trim();
+    if(!pokeName)
+        p.textContent = "Input cannot be empty"
+    else{
+        let url = `http://127.0.0.1:3000/getPokemon/?name=${pokeName}`
         
-        // Track the state changes of the request.
-        xhr.onreadystatechange = function () {
-          var DONE = 4; 
-          var OK = 200; 
-          if (xhr.readyState === DONE) {
-            if (xhr.status === OK) {
-              resolve(xhr.responseText);
-            } else {
-                alertBoot.textContent = "Pokemon not found!";
-              reject(xhr.status);
+        let ajaxPromise = new Promise((resolve, reject) => {
+            // Initialize the HTTP request.
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            
+            // Track the state changes of the request.
+            xhr.onreadystatechange = function () {
+            var DONE = 4; 
+            var OK = 200; 
+            if (xhr.readyState === DONE) {
+                if (xhr.status === OK) {
+                resolve(xhr.responseText);
+                } else {
+                    alertBoot.textContent = "Pokemon not found!";
+                    reject(xhr.status);
+                }
             }
-          }
-        };
-        // Send the request to send-ajax-data.php
-        xhr.send(null);
-      });
-      
-      let p = document.querySelector("p");
-      ajaxPromise.then((okMessage) => {
-        createCard(JSON.parse(okMessage));
-        })
-      .catch(err =>  {p.innerHTML = err })
+            };
+            // Send the request to send-ajax-data.php
+            xhr.send(null);
+        });
+        
+        ajaxPromise.then((okMessage) => {
+            createCard(JSON.parse(okMessage));
+            })
+        .catch(err =>  {p.innerHTML = err })
 
-      myForm.reset();
-      alertBoot.textContent = "";
+        myForm.reset();
+        alertBoot.textContent = "";
+    }
 };
 
 function createCard(obj){
