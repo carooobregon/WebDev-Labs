@@ -50,24 +50,17 @@ app.get('/queryForm', (req,res) => {
   }
   else {
     axios.get(url).then((response) => {
-      console.log("ww", response.data)
       let poke_data = response.data;
-      pokeObj = returnPokeObject(poke_data)
-      console.log("pokeob", pokeObj)
-      let curr_pokemon = new PokeModel({name: pokeObj.name, weight: pokeObj.weight, height: pokeObj.height, pic: pokeObj.pic, exp: pokeObj.exp});
-      pokeCache.set(poke_data.name, returnPokeObject(poke_data));
-
-      curr_pokemon.save((err) => {
-        if (err) res.status(503).end(`error: ${err}`); 
-        else {
-            // res.send({movieId: movie.movieId, title: movie.title, rating: movie.rating});
-            res.send(curr_pokemon);
+      PokeModel.findOne({name: poke_data.name}).exec((err, doc) => {
+        if (doc) {
+           doc.toObject({ getters: true })
+           res.status(200).send(doc);
+        }else{
+          addPokemonToCache(poke_data)
+          res.status(200).send(returnPokeObject(poke_data));
         }
-      });
-      
-      res.status(200).send(returnPokeObject(poke_data));
+      })     
     }).catch ((error) => {
-      console.log("owo")
       res.status(404).send()
     })
   }
@@ -86,6 +79,14 @@ function returnPokeObject(poke_data){
         pic: poke_data.sprites.front_default,
         exp: poke_data.base_experience
     };
+}
+
+function addPokemonToCache(poke_data){
+  pokeObj = returnPokeObject(poke_data)
+  let curr_pokemon = new PokeModel({name: pokeObj.name, weight: pokeObj.weight, height: pokeObj.height, pic: pokeObj.pic, exp: pokeObj.exp});
+  pokeCache.set(poke_data.name, returnPokeObject(poke_data));
+
+  curr_pokemon.save();
 }
 
 app.listen(port, () => {
